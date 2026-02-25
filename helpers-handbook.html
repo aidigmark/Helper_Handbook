@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Helper's Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0ea3e8;
+  --blue-dark:#0b8ac5;
+  --blue-light:#e8f6fd;
+  --black:#111;
+  --white:#fff;
+  --gray-50:#f8f9fa;
+  --gray-100:#f0f1f3;
+  --gray-200:#e2e4e8;
+  --gray-300:#c8ccd2;
+  --gray-400:#9aa0ab;
+  --gray-500:#6b7280;
+  --gray-600:#4b5563;
+  --gray-700:#374151;
+  --gray-800:#1f2937;
+  --gray-900:#111827;
+  --bg:var(--white);
+  --bg-alt:var(--gray-50);
+  --text:var(--gray-900);
+  --text-secondary:var(--gray-600);
+  --border:var(--gray-200);
+  --sidebar-bg:var(--gray-900);
+  --sidebar-text:var(--gray-300);
+  --sidebar-active:var(--blue);
+  --card-bg:var(--white);
+  --card-shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --card-shadow-hover:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -2px rgba(0,0,0,.04);
+  --transition:0.25s ease;
+}
+.dark{
+  --bg:#0f1117;
+  --bg-alt:#1a1d27;
+  --text:#e4e6eb;
+  --text-secondary:#9aa0ab;
+  --border:#2d3140;
+  --sidebar-bg:#0a0c12;
+  --sidebar-text:#9aa0ab;
+  --card-bg:#1a1d27;
+  --card-shadow:0 1px 3px rgba(0,0,0,.3);
+  --card-shadow-hover:0 10px 15px rgba(0,0,0,.3);
+  --blue-light:#0f2a3d;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Montserrat',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  font-size:16px;
+  transition:background var(--transition),color var(--transition);
+}
+h1,h2,h3,h4,h5,h6{font-family:'League Spartan',sans-serif;line-height:1.25;font-weight:700}
+h1{font-size:2.5rem;font-weight:800;letter-spacing:-0.02em}
+h2{font-size:1.75rem;margin-top:2.5rem;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--border)}
+h3{font-size:1.3rem;margin-top:2rem;margin-bottom:.75rem;color:var(--blue)}
+h4{font-size:1.1rem;margin-top:1.5rem;margin-bottom:.5rem}
+p{margin-bottom:1rem}
+a{color:var(--blue);text-decoration:none;transition:color var(--transition)}
+a:hover{color:var(--blue-dark);text-decoration:underline}
+strong{font-weight:600}
+em{font-style:italic}
+ul,ol{margin:0 0 1rem 1.5rem}
+li{margin-bottom:.4rem}
+blockquote{border-left:4px solid var(--blue);padding:.75rem 1.25rem;margin:1.5rem 0;background:var(--blue-light);border-radius:0 8px 8px 0;font-style:italic}
+
+/* Layout */
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:280px;min-width:280px;
+  background:var(--sidebar-bg);
+  color:var(--sidebar-text);
+  position:fixed;top:0;left:0;bottom:0;
+  display:flex;flex-direction:column;
+  z-index:100;
+  transition:transform .3s ease;
+}
+.sidebar-header{padding:1.5rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-logo{font-family:'League Spartan',sans-serif;font-size:1.1rem;font-weight:800;color:var(--white);letter-spacing:.02em}
+.sidebar-logo span{color:var(--blue)}
+.sidebar-subtitle{font-size:.72rem;color:var(--gray-400);margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em}
+.sidebar-nav{flex:1;overflow-y:auto;padding:.75rem 0}
+.sidebar-nav::-webkit-scrollbar{width:4px}
+.sidebar-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+.nav-section{padding:0 1rem;margin-bottom:.25rem}
+.nav-section-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-500);padding:.75rem .75rem .4rem;font-weight:600}
+.nav-item{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.55rem .75rem;border-radius:8px;
+  cursor:pointer;font-size:.85rem;font-weight:500;
+  transition:all .15s ease;color:var(--sidebar-text);
+  margin-bottom:2px;
+}
+.nav-item:hover{background:rgba(255,255,255,.06);color:var(--white)}
+.nav-item.active{background:rgba(14,163,232,.15);color:var(--blue);font-weight:600}
+.nav-item .nav-num{
+  font-size:.65rem;font-weight:700;
+  width:22px;height:22px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.06);flex-shrink:0;
+}
+.nav-item.active .nav-num{background:var(--blue);color:var(--white)}
+.nav-icon{width:18px;height:18px;flex-shrink:0;opacity:.6}
+.nav-item.active .nav-icon,.nav-item:hover .nav-icon{opacity:1}
+
+.sidebar-footer{padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:.75rem;align-items:center}
+.theme-toggle{
+  background:rgba(255,255,255,.08);border:none;color:var(--sidebar-text);
+  width:36px;height:36px;border-radius:8px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s ease;font-size:1.1rem;
+}
+.theme-toggle:hover{background:rgba(255,255,255,.15);color:var(--white)}
+
+/* Main */
+.main{flex:1;margin-left:280px;min-height:100vh}
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:var(--bg);border-bottom:1px solid var(--border);
+  padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;
+  backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 85%,transparent);
+  transition:background var(--transition);
+}
+.menu-btn{
+  display:none;background:none;border:none;color:var(--text);
+  cursor:pointer;padding:.4rem;border-radius:6px;
+  font-size:1.3rem;
+}
+.menu-btn:hover{background:var(--gray-100)}
+.search-box{
+  flex:1;max-width:480px;position:relative;
+}
+.search-input{
+  width:100%;padding:.55rem 1rem .55rem 2.5rem;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-family:'Montserrat',sans-serif;font-size:.85rem;
+  background:var(--bg-alt);color:var(--text);
+  transition:all .2s ease;outline:none;
+}
+.search-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,163,232,.12)}
+.search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:var(--gray-400);font-size:.9rem}
+.search-results{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;box-shadow:0 20px 40px rgba(0,0,0,.15);
+  max-height:400px;overflow-y:auto;display:none;
+}
+.search-results.visible{display:block}
+.search-result-item{
+  padding:.75rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);
+  transition:background .1s;
+}
+.search-result-item:last-child{border-bottom:none}
+.search-result-item:hover{background:var(--blue-light)}
+.search-result-item .sr-chapter{font-size:.7rem;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.05em}
+.search-result-item .sr-text{font-size:.85rem;margin-top:.15rem;color:var(--text)}
+.search-result-item mark{background:rgba(14,163,232,.25);color:inherit;border-radius:2px;padding:0 2px}
+.progress-wrap{flex-shrink:0;display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--text-secondary)}
+.progress-bar{width:100px;height:5px;background:var(--gray-200);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--blue);border-radius:3px;transition:width .4s ease}
+
+.content{max-width:820px;margin:0 auto;padding:2.5rem 2rem 4rem}
+
+/* Hero */
+.hero{
+  text-align:center;padding:3rem 0 2.5rem;
+}
+.hero h1{margin-bottom:.75rem}
+.hero h1 span{color:var(--blue)}
+.hero-sub{font-size:1.15rem;color:var(--text-secondary);max-width:560px;margin:0 auto 2rem;font-weight:400}
+.hero-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:2rem}
+.hero-card{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:14px;padding:1.25rem;text-align:left;
+  cursor:pointer;transition:all .2s ease;
+  box-shadow:var(--card-shadow);
+}
+.hero-card:hover{box-shadow:var(--card-shadow-hover);transform:translateY(-2px);border-color:var(--blue)}
+.hero-card .hc-icon{font-size:1.5rem;margin-bottom:.6rem}
+.hero-card .hc-title{font-family:'League Spartan',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.3rem}
+.hero-card .hc-desc{font-size:.8rem;color:var(--text-secondary);line-height:1.5}
+
+/* Quick start */
+.quick-start{
+  background:var(--blue);color:var(--white);
+  border-radius:16px;padding:2rem;margin:2rem 0;
+}
+.quick-start h3{color:var(--white);margin-top:0}
+.quick-start-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1rem}
+.qs-item{
+  background:rgba(255,255,255,.12);border-radius:10px;padding:.85rem;
+  display:flex;gap:.6rem;align-items:flex-start;
+}
+.qs-time{font-weight:700;font-size:.8rem;white-space:nowrap;min-width:55px;opacity:.85}
+.qs-text{font-size:.85rem;font-weight:500}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:.88rem}
+th{
+  background:var(--bg-alt);font-family:'League Spartan',sans-serif;
+  font-weight:600;text-align:left;padding:.65rem .85rem;
+  border-bottom:2px solid var(--border);font-size:.85rem;
+}
+td{padding:.6rem .85rem;border-bottom:1px solid var(--border)}
+tr:hover td{background:var(--blue-light)}
+
+/* Cards in content */
+.info-card{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;padding:1.25rem;margin:1.25rem 0;
+  box-shadow:var(--card-shadow);
+}
+.tip-card{border-left:4px solid var(--blue);background:var(--blue-light);border-radius:0 12px 12px 0;padding:1rem 1.25rem;margin:1.25rem 0}
+.tip-card strong{color:var(--blue)}
+
+/* Chapter nav */
+.chapter-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:2px solid var(--border)}
+.chapter-nav-btn{
+  padding:.75rem 1.25rem;border-radius:10px;cursor:pointer;
+  border:1.5px solid var(--border);background:var(--card-bg);
+  font-family:'Montserrat',sans-serif;font-size:.85rem;font-weight:500;
+  color:var(--text);transition:all .2s ease;
+  display:flex;align-items:center;gap:.5rem;max-width:48%;
+}
+.chapter-nav-btn:hover{border-color:var(--blue);color:var(--blue);box-shadow:var(--card-shadow)}
+.chapter-nav-btn .cnb-label{font-size:.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em}
+.chapter-nav-btn .cnb-title{font-weight:600}
+
+/* Back to top */
+.back-to-top{
+  position:fixed;bottom:2rem;right:2rem;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--blue);color:var(--white);border:none;
+  cursor:pointer;box-shadow:0 4px 12px rgba(14,163,232,.3);
+  display:none;align-items:center;justify-content:center;
+  font-size:1.2rem;z-index:80;transition:all .2s ease;
+}
+.back-to-top.visible{display:flex}
+.back-to-top:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(14,163,232,.4)}
+
+/* Mobile overlay */
+.sidebar-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:90;
+}
+.sidebar-overlay.visible{display:block}
+
+/* Responsive */
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{margin-left:0}
+  .menu-btn{display:block}
+  .content{padding:2rem 1.25rem 3rem}
+  h1{font-size:2rem}
+  .hero-cards{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .topbar{padding:.6rem 1rem}
+  .progress-wrap{display:none}
+  h1{font-size:1.65rem}
+  h2{font-size:1.4rem}
+}
+
+/* Smooth page transitions */
+.page{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Print */
+@media print{.sidebar,.topbar,.back-to-top,.chapter-nav{display:none!important}.main{margin-left:0!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">The Helper's <span>Handbook</span></div>
+      <div class="sidebar-subtitle">A MODRN Project</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">&#9790;</button>
+      <span style="font-size:.75rem;color:var(--gray-500)">Toggle Dark Mode</span>
+    </div>
+  </div>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-btn" id="menuBtn">&#9776;</button>
+      <div class="search-box">
+        <span class="search-icon">&#128269;</span>
+        <input class="search-input" id="searchInput" type="text" placeholder="Search the handbook...">
+        <div class="search-results" id="searchResults"></div>
+      </div>
+      <div class="progress-wrap">
+        <span id="progressLabel">0%</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<button class="back-to-top" id="backToTop" title="Back to top">&#8593;</button>
+
+<script>
+// ===== CHAPTER DATA =====
+const chapters = [
+{id:'home',title:'Home',icon:'&#127968;',isHome:true,content:`
+<div class="hero">
+<h1>The Helper's <span>Handbook</span></h1>
+<p class="hero-sub">A practical guide for people who want to make the world better. Whether you have five minutes or five hours, a dollar or a thousand&mdash;this handbook shows you how.</p>
+</div>
+<div class="quick-start">
+<h3>&#9889; 5 Ways to Help Today</h3>
+<div class="quick-start-grid">
+<div class="qs-item"><span class="qs-time">5 min</span><span class="qs-text">Text a friend going through a hard time</span></div>
+<div class="qs-item"><span class="qs-time">15 min</span><span class="qs-text">Sign up for Be My Eyes to help blind users</span></div>
+<div class="qs-item"><span class="qs-time">30 min</span><span class="qs-text">Donate blood at your local blood bank</span></div>
+<div class="qs-item"><span class="qs-time">1 hour</span><span class="qs-text">Sort food at a local food bank</span></div>
+<div class="qs-item"><span class="qs-time">Ongoing</span><span class="qs-text">Set up a monthly $5 donation to a GiveWell top charity</span></div>
+</div>
+</div>
+<h2>Explore the Chapters</h2>
+<div class="hero-cards" id="heroCards"></div>
+<blockquote>&ldquo;The best time to plant a tree was 20 years ago. The second best time is now.&rdquo;</blockquote>
+<p>You don't need to be perfect. You don't need to solve everything. You just need to start, stay consistent, and keep learning.</p>
+`},
+{id:'ch1',title:'Getting Started',num:'1',icon:'&#127919;',subtitle:'Finding your path to meaningful helping',content:`
+<h1>Chapter 1: Getting Started</h1>
+<p><em>Finding your path to meaningful helping</em></p>
+
+<h2>The Helper's Mindset</h2>
+<p>Before you volunteer a single hour or donate a single dollar, examine your motivations and expectations. The most effective helpers share a few key mindsets:</p>
+
+<h3>Start Where You Are</h3>
+<p>You don't need special qualifications to help others. A listening ear, a spare hour, or a few dollars&mdash;these are enough to begin. Perfectionism kills more helping impulses than apathy ever did. Start imperfect, improve over time.</p>
+
+<h3>Think Long-Term</h3>
+<p>One-off volunteering feels good but rarely creates lasting change. Commit to consistency over intensity. Two hours every month for a year beats a single 24-hour marathon. Organizations can rely on you, relationships deepen, and your impact compounds.</p>
+
+<h3>Stay Humble</h3>
+<p>The people you're helping are experts on their own lives. Approach with curiosity rather than assumptions. Ask what's needed rather than assuming you know. The best help empowers rather than creates dependency.</p>
+
+<h3>Avoid Savior Mentality</h3>
+<p>You're not here to rescue anyone. You're here to support, contribute, and work alongside others. The communities you serve have strengths, knowledge, and resilience. Your role is to amplify what's already there.</p>
+
+<h3>Embrace Discomfort</h3>
+<p>Meaningful helping often takes you outside your comfort zone&mdash;different neighborhoods, unfamiliar problems, difficult conversations. That discomfort is a sign of growth. Lean into it.</p>
+
+<h2>Assessing What You Can Offer</h2>
+<p>Everyone has something to give. Take inventory of your resources:</p>
+
+<h3>Time</h3>
+<p>Be honest about your availability:</p>
+<ul>
+<li><strong>5-15 minutes/day</strong>: Micro-volunteering, daily kindnesses, quick donations</li>
+<li><strong>1-2 hours/week</strong>: Regular volunteering, mentorship, online support</li>
+<li><strong>Half-day/month</strong>: Deeper community involvement, event volunteering</li>
+<li><strong>Significant blocks</strong>: Crisis response, intensive projects, board service</li>
+</ul>
+<div class="tip-card"><strong>Tip:</strong> Underestimate your available time. It's better to exceed commitments than to burn out.</div>
+
+<h3>Skills</h3>
+<p><strong>Professional skills:</strong> Writing, editing, translation, graphic design, web development, legal, medical, or financial expertise, teaching, project management.</p>
+<p><strong>Life skills:</strong> Driving, cooking, childcare, home repair, gardening, emotional support, active listening, event planning.</p>
+<p><strong>Specialized knowledge:</strong> Languages you speak, hobbies and crafts, local knowledge, lived experience with specific challenges.</p>
+
+<h3>Money</h3>
+<table><thead><tr><th>Amount</th><th>Impact</th></tr></thead><tbody>
+<tr><td>$5-25/month</td><td>Meaningful to efficient charities</td></tr>
+<tr><td>$50-100/month</td><td>Significant impact at top-rated organizations</td></tr>
+<tr><td>$500+/year</td><td>Consider strategic giving, donor-advised funds</td></tr>
+<tr><td>Major gifts</td><td>May warrant personalized charity research</td></tr>
+</tbody></table>
+
+<h2>Finding Your Fit</h2>
+
+<h3>By Cause Area</h3>
+<table><thead><tr><th>Cause Area</th><th>Examples</th></tr></thead><tbody>
+<tr><td>Poverty &amp; Basic Needs</td><td>Food banks, housing, cash transfers</td></tr>
+<tr><td>Health</td><td>Blood donation, patient support, disease prevention</td></tr>
+<tr><td>Education</td><td>Tutoring, mentorship, literacy programs</td></tr>
+<tr><td>Environment</td><td>Conservation, climate action, cleanups</td></tr>
+<tr><td>Animals</td><td>Shelters, wildlife protection, advocacy</td></tr>
+<tr><td>Human Rights</td><td>Refugees, prisoners, marginalized groups</td></tr>
+<tr><td>Mental Health</td><td>Crisis lines, peer support, stigma reduction</td></tr>
+<tr><td>Disaster Relief</td><td>Emergency response, recovery support</td></tr>
+<tr><td>Community Building</td><td>Mutual aid, neighborhood organizing</td></tr>
+</tbody></table>
+
+<h3>By Style</h3>
+<p><strong>Direct service:</strong> Face-to-face with people in need. Serving meals, tutoring kids, visiting the elderly. Immediate, tangible, emotionally rich.</p>
+<p><strong>Skilled volunteering:</strong> Using professional abilities. Pro bono legal work, designing websites, medical missions. High-impact use of specialized training.</p>
+<p><strong>Advocacy:</strong> Changing systems rather than treating symptoms. Lobbying, awareness campaigns, policy work. Longer time horizons, potentially larger impact.</p>
+<p><strong>Financial support:</strong> Donating money to effective organizations. Can be the highest-impact option if funds go to efficient charities.</p>
+
+<h2>Avoiding Common Pitfalls</h2>
+<h3>Burnout</h3>
+<p>Signs you're overextending: dreading commitments, resentment, neglecting your own needs, declining quality. Prevention: set boundaries, schedule rest, say no when at capacity, diversify.</p>
+
+<h3>Ineffective Helping</h3>
+<p>Beware of vanity volunteering (looks good, accomplishes little), parachute projects (arriving with solutions without understanding problems), and harmful "help" (e.g., voluntourism that displaces local workers).</p>
+
+<h2>Your First Steps</h2>
+<ol>
+<li><strong>This week:</strong> Complete the self-assessment above. Write down your answers.</li>
+<li><strong>Next week:</strong> Browse Local Action or Online Helping and identify three opportunities.</li>
+<li><strong>Within 30 days:</strong> Try at least one. Don't overthink it.</li>
+<li><strong>After trying:</strong> Reflect. Did it fit? Adjust and try again.</li>
+<li><strong>Within 90 days:</strong> Settle into a sustainable rhythm that works for your life.</li>
+</ol>
+<p>The world has enough people who care. It needs more people who care <em>and act</em>.</p>
+`},
+{id:'ch2',title:'Local Action',num:'2',icon:'&#127963;',subtitle:'Volunteering, mutual aid, and community organizing',content:`
+<h1>Chapter 2: Local Action</h1>
+<p><em>Volunteering, mutual aid, and community organizing in your backyard</em></p>
+
+<h2>Why Local Matters</h2>
+<p>While global problems demand global solutions, some of the most meaningful helping happens within walking distance. You see your impact directly, build real relationships, understand root causes firsthand, and strengthen social bonds.</p>
+
+<h2>Traditional Volunteering</h2>
+<h3>Finding Opportunities</h3>
+<p><strong>National platforms:</strong> <a href="https://volunteermatch.org">VolunteerMatch</a>, <a href="https://idealist.org">Idealist</a>, <a href="https://allforgood.org">All for Good</a>, <a href="https://justserve.org">JustServe</a></p>
+<p><strong>Local sources:</strong> Your city's volunteer center, United Way 211 (dial 211), community foundations, houses of worship, libraries, hospital volunteer programs, local chapters of national organizations.</p>
+
+<h3>High-Impact Volunteer Roles</h3>
+<table><thead><tr><th>Role</th><th>Impact</th></tr></thead><tbody>
+<tr><td>Food banks &amp; pantries</td><td>Chronic understaffing, consistent need, deeply tangible impact</td></tr>
+<tr><td>Tutoring &amp; mentorship</td><td>Long-term relationships = long-term impact (Big Brothers Big Sisters, literacy councils)</td></tr>
+<tr><td>Hospice volunteering</td><td>Sitting with dying people so they're not alone. Heavy but profoundly meaningful</td></tr>
+<tr><td>CASA</td><td>Advocating for foster children. You may be the only consistent adult in a child's life</td></tr>
+<tr><td>CERT training</td><td>Community Emergency Response Team&mdash;free training through local fire departments</td></tr>
+<tr><td>ESL teaching</td><td>Enormous need for English instruction for immigrants and refugees</td></tr>
+</tbody></table>
+
+<h3>Making the Most of Volunteering</h3>
+<ul>
+<li><strong>Commit to consistency:</strong> Aim for 3-6 months minimum. Sporadic volunteers cost more than they contribute.</li>
+<li><strong>Be reliable:</strong> Show up when you say you will.</li>
+<li><strong>Take initiative within bounds:</strong> Look for improvements but respect existing processes.</li>
+<li><strong>Bring others:</strong> Recruiting additional volunteers multiplies your impact.</li>
+</ul>
+
+<h2>Mutual Aid</h2>
+<p>Mutual aid differs from charity. Rather than haves giving to have-nots, it's community members supporting each other&mdash;solidarity, not saviorism.</p>
+<h3>Principles</h3>
+<ul>
+<li>Solidarity, not charity</li>
+<li>No strings attached</li>
+<li>Trust the people&mdash;let individuals decide what they need</li>
+<li>Everyone has something to give</li>
+</ul>
+<h3>Common Activities</h3>
+<p>Grocery runs for elderly neighbors, childcare exchanges, skill shares, tool libraries, transportation networks, meal trains, emergency funds, community fridges/pantries.</p>
+<h3>Buy Nothing Project</h3>
+<p><a href="https://buynothingproject.org">Buy Nothing Project</a> creates hyperlocal gift economies. Give away things you don't need, ask for things you need. No money, no trades&mdash;just gifts.</p>
+
+<h2>Community Organizing</h2>
+<table><thead><tr><th>Service</th><th>Organizing</th></tr></thead><tbody>
+<tr><td>Treats symptoms</td><td>Addresses root causes</td></tr>
+<tr><td>Helps individuals</td><td>Builds collective power</td></tr>
+<tr><td>Immediate relief</td><td>Long-term change</td></tr>
+</tbody></table>
+<p>Both matter. Many effective helpers do both.</p>
+
+<h3>A Simple Organizing Framework</h3>
+<ol>
+<li><strong>Identify the problem:</strong> What's wrong? Who's affected?</li>
+<li><strong>Research:</strong> Who has power? What are leverage points?</li>
+<li><strong>Build a team:</strong> Find others who share the concern.</li>
+<li><strong>Choose target and tactic:</strong> What change do you want? What action will move them?</li>
+<li><strong>Take action:</strong> Meetings, petitions, public pressure, direct action.</li>
+<li><strong>Evaluate and iterate.</strong></li>
+</ol>
+
+<h2>Neighborhood-Level Helping</h2>
+<p>Know your neighbors. Note who lives alone, who's elderly, who has young kids. Exchange contact information. Practical help: shovel snow, bring in trash cans, share garden produce, check in during extreme weather, welcome newcomers.</p>
+`},
+{id:'ch3',title:'Online Helping',num:'3',icon:'&#128187;',subtitle:'Making an impact from anywhere',content:`
+<h1>Chapter 3: Online Helping</h1>
+<p><em>Making an impact from anywhere with an internet connection</em></p>
+
+<h2>Crisis Support Lines</h2>
+<table><thead><tr><th>Organization</th><th>What</th><th>Commitment</th></tr></thead><tbody>
+<tr><td><a href="https://crisistextline.org">Crisis Text Line</a></td><td>Text-based crisis support</td><td>4 hrs/week after 30+ hr training</td></tr>
+<tr><td><a href="https://7cups.com">7 Cups</a></td><td>Chat support for emotional well-being</td><td>Flexible, self-paced training</td></tr>
+<tr><td><a href="https://thetrevorproject.org/volunteer">Trevor Project</a></td><td>Crisis support for LGBTQ+ youth</td><td>Significant training, regular shifts</td></tr>
+<tr><td><a href="https://rainn.org/volunteer">RAINN</a></td><td>Support for sexual assault survivors</td><td>16-hr training, 4 hrs/week for 6 months</td></tr>
+</tbody></table>
+<p>Crisis support volunteering is intense but rewarding. Training is substantial (20-40+ hours), supervision is ongoing, and your impact is immediate.</p>
+
+<h2>Micro-Volunteering</h2>
+<h3>Human Connection</h3>
+<p><strong><a href="https://bemyeyes.com">Be My Eyes</a>:</strong> Video calls to help blind/low-vision users. Calls are typically 2-5 minutes.</p>
+
+<h3>Research &amp; Data</h3>
+<p><strong><a href="https://zooniverse.org">Zooniverse</a>:</strong> Citizen science&mdash;classify galaxies, transcribe documents, track wildlife. Minutes per task.</p>
+<p><strong><a href="https://transcription.si.edu">Smithsonian Transcription</a>:</strong> Transcribe historical documents and field notes.</p>
+<p><strong><a href="https://foldingathome.org">Folding@home</a>:</strong> Donate computer processing power for disease research. Passive&mdash;just install and let it run.</p>
+
+<h3>Humanitarian Mapping</h3>
+<p><strong><a href="https://missingmaps.org">Missing Maps</a>:</strong> Trace buildings from satellite imagery to support Red Cross and MSF operations. 15-30 minute tasks.</p>
+
+<h2>Skilled Online Volunteering</h2>
+<table><thead><tr><th>Platform</th><th>Skills Needed</th></tr></thead><tbody>
+<tr><td><a href="https://catchafire.org">Catchafire</a></td><td>Marketing, finance, HR, tech, strategy, design</td></tr>
+<tr><td><a href="https://taprootfoundation.org">Taproot Foundation</a></td><td>Marketing, HR, IT, strategy, design</td></tr>
+<tr><td><a href="https://brigade.codeforamerica.org">Code for America Brigade</a></td><td>Development, design, UX, data science</td></tr>
+<tr><td><a href="https://datakind.org">DataKind</a></td><td>Data analysis, machine learning, visualization</td></tr>
+</tbody></table>
+
+<h2>Online Mentoring &amp; Tutoring</h2>
+<p><strong><a href="https://upchieve.org">UPchieve</a>:</strong> Free tutoring for low-income high school students. On-demand notifications.</p>
+<p><strong><a href="https://learntobe.org">Learn to Be</a>:</strong> Online K-12 tutoring. Background check required.</p>
+<p><strong><a href="https://score.org">SCORE</a>:</strong> Mentoring for small business owners. Valuable if you have entrepreneurship experience.</p>
+<p><strong><a href="https://adplist.org">ADPList</a>:</strong> Mentoring for design, product, and tech professionals.</p>
+
+<h2>Translation &amp; Language Support</h2>
+<p><strong><a href="https://clearglobal.org">CLEAR Global</a>:</strong> Translation for humanitarian organizations.</p>
+<p><strong><a href="https://tarjimly.org">Tarjimly</a>:</strong> Translation/interpretation for refugees via mobile app.</p>
+
+<h2>Safety &amp; Self-Care Online</h2>
+<ul>
+<li>Use your first name only in most volunteer contexts</li>
+<li>Set clear limits on when and how much you volunteer</li>
+<li>Take breaks when needed&mdash;online helping can expose you to heavy content</li>
+<li>Crisis line programs offer supervision&mdash;use it</li>
+</ul>
+`},
+{id:'ch4',title:'Giving Wisely',num:'4',icon:'&#128176;',subtitle:'Maximizing donation impact',content:`
+<h1>Chapter 4: Giving Wisely</h1>
+<p><em>Maximizing the impact of your charitable donations</em></p>
+
+<h2>Why Giving Strategy Matters</h2>
+<p>Not all charities are equal. Some save lives for hundreds of dollars; others spend thousands with minimal impact. The difference can be 100x or more in cost-effectiveness. This isn't about being stingy&mdash;it's about caring so much that you want every dollar to count.</p>
+
+<h2>The Effective Giving Mindset</h2>
+<h3>Think Like an Investor</h3>
+<p>Research carefully, concentrate on best opportunities, measure impact, and update based on evidence.</p>
+
+<h3>The "Warm Glow" Problem</h3>
+<p>Giving makes us feel good. But don't let good feelings substitute for good impact. Be aware of trade-offs between emotional giving and effective giving.</p>
+
+<h2>Evaluating Charities</h2>
+<table><thead><tr><th>Evaluator</th><th>Focus</th><th>Best For</th></tr></thead><tbody>
+<tr><td><a href="https://givewell.org">GiveWell</a></td><td>Global health &amp; poverty</td><td>Maximum impact per dollar</td></tr>
+<tr><td><a href="https://animalcharityevaluators.org">Animal Charity Evaluators</a></td><td>Reducing animal suffering</td><td>Animal welfare donors</td></tr>
+<tr><td><a href="https://charitynavigator.org">Charity Navigator</a></td><td>Broad US nonprofit coverage</td><td>Quick legitimacy check</td></tr>
+<tr><td><a href="https://candid.org">GuideStar (Candid)</a></td><td>Nonprofit transparency</td><td>Due diligence</td></tr>
+</tbody></table>
+
+<h3>Red Flags</h3>
+<ul>
+<li>Excessive overhead (less than 65% on programs)</li>
+<li>Vague impact claims without specifics</li>
+<li>High-pressure fundraising tactics</li>
+<li>Lack of transparency on financials</li>
+<li>Celebrity-driven with no track record</li>
+</ul>
+
+<h2>Cause Prioritization</h2>
+<p>The effective altruism framework: <strong>Scale &times; Neglectedness &times; Tractability</strong>. How big is the problem? How little funding does it get? Can we actually make progress?</p>
+
+<h3>A Suggested Giving Portfolio</h3>
+<table><thead><tr><th>Category</th><th>% of Budget</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Maximum impact (GiveWell)</td><td>50-70%</td><td>Save/improve the most lives</td></tr>
+<tr><td>Cause you care about</td><td>20-30%</td><td>Personal connection &amp; meaning</td></tr>
+<tr><td>Local community</td><td>10-20%</td><td>Direct community investment</td></tr>
+<tr><td>Responsive giving</td><td>5-10%</td><td>Buffer for urgent appeals</td></tr>
+</tbody></table>
+
+<h2>Giving Vehicles</h2>
+<h3>Donor-Advised Funds</h3>
+<p>Like a charitable savings account: contribute, get tax deduction, invest tax-free, grant to charities whenever. Good if you give $5,000+/year or have lumpy income. Offered by Fidelity, Schwab, Vanguard Charitable.</p>
+
+<h3>Giving Circles</h3>
+<p>Pool money with others to learn and give together. Check <a href="https://philanthropytogether.org">Philanthropy Together</a>.</p>
+
+<h2>Practical Tactics</h2>
+<ul>
+<li><strong>Set a budget:</strong> 1% trial, 10% traditional tithe, or whatever's sustainable</li>
+<li><strong>Automate:</strong> Set up recurring monthly donations</li>
+<li><strong>Batch research:</strong> Research once or twice a year, then politely decline other appeals</li>
+<li><strong>Track everything:</strong> What you gave, to whom, why, and tax receipts</li>
+</ul>
+
+<h2>Common Mistakes</h2>
+<p><strong>Spreading too thin:</strong> $10 to 50 organizations helps no one much. Better to give $500 to one excellent org.</p>
+<p><strong>Panic giving after disasters:</strong> Major disasters attract massive donations, often exceeding capacity. Meanwhile, ongoing crises remain underfunded.</p>
+<p><strong>Letting guilt drive:</strong> Give from abundance, not guilt. Guilt-driven giving leads to resentment and burnout.</p>
+`},
+{id:'ch5',title:'Crisis Response',num:'5',icon:'&#127785;',subtitle:'Helping when disaster strikes',content:`
+<h1>Chapter 5: Crisis Response</h1>
+<p><em>How to help when disaster strikes&mdash;locally and globally</em></p>
+
+<h2>Before Crisis: Preparation</h2>
+<p>The best crisis response happens before the crisis. You can't help others if you're not okay yourself.</p>
+
+<h3>Get Trained</h3>
+<table><thead><tr><th>Training</th><th>What You Learn</th></tr></thead><tbody>
+<tr><td><a href="https://ready.gov/cert">CERT</a></td><td>Basic disaster response, search &amp; rescue, fire safety, medical ops</td></tr>
+<tr><td>First Aid/CPR</td><td>Life-saving emergency medical skills</td></tr>
+<tr><td><a href="https://stopthebleed.org">Stop the Bleed</a></td><td>Hemorrhage control</td></tr>
+<tr><td>Psychological First Aid</td><td>Emotional support in crises</td></tr>
+</tbody></table>
+
+<h3>Know Your Neighbors</h3>
+<p>Who lives alone? Who has medical conditions? Who has useful skills? Who has generators, tools, extra supplies?</p>
+
+<h2>During Local Emergencies</h2>
+<h3>Cardinal Rules</h3>
+<ol>
+<li><strong>Don't become a victim:</strong> Your safety comes first.</li>
+<li><strong>Follow official guidance:</strong> Obey evacuation orders and road closures.</li>
+<li><strong>Don't self-deploy:</strong> Work through official channels.</li>
+<li><strong>Manage your own needs:</strong> Bring your own food, water, supplies.</li>
+</ol>
+
+<h3>Immediate Response (First 72 Hours)</h3>
+<p>Check on neighbors (especially elderly, disabled, isolated). Share resources: generator power, water, transportation, shelter. Don't enter damaged buildings, handle downed power lines, or drive through floods.</p>
+
+<h2>Recovery Phase</h2>
+<p>Recovery takes months or years&mdash;long after media attention fades. This is when volunteers are most valuable.</p>
+<p><strong>Physical labor:</strong> Mucking out flooded homes, debris removal, rebuilding.</p>
+<p><strong>Administrative:</strong> Helping survivors navigate FEMA, insurance, aid applications.</p>
+<p><strong>Specialized:</strong> Medical, mental health, legal, translation services through official channels.</p>
+
+<h3>Connecting With Official Efforts</h3>
+<p>American Red Cross, Team Rubicon, All Hands and Hearts, Habitat for Humanity, World Central Kitchen. Find opportunities at <a href="https://nvoad.org">NVOAD.org</a> or <a href="https://volunteermatch.org">VolunteerMatch</a>.</p>
+
+<h2>Donating for Disaster Relief</h2>
+<div class="tip-card"><strong>Cash is king.</strong> In almost every disaster, cash beats physical goods. Logistics of sorting/shipping goods is expensive. Cash can be spent locally, supporting affected economies.</div>
+<h3>Where to Give</h3>
+<p><a href="https://disasterphilanthropy.org">Center for Disaster Philanthropy</a>, <a href="https://directrelief.org">Direct Relief</a>, <a href="https://globalgiving.org">GlobalGiving</a>, Doctors Without Borders, World Central Kitchen, International Rescue Committee.</p>
+
+<h2>Psychological First Aid Basics</h2>
+<ul>
+<li>Approach calmly and respectfully. Ask permission before helping.</li>
+<li>Help meet immediate practical needs</li>
+<li>Provide accurate, honest information</li>
+<li>Help them reach social support (family, friends)</li>
+<li>Normalize reactions: "What you're feeling is a normal response to an abnormal situation"</li>
+<li>Don't pressure people to talk about what happened</li>
+<li>Don't make promises you can't keep</li>
+</ul>
+`},
+{id:'ch6',title:'Everyday Acts',num:'6',icon:'&#128150;',subtitle:'Small daily kindnesses that add up',content:`
+<h1>Chapter 6: Everyday Acts</h1>
+<p><em>Small daily kindnesses that add up to meaningful change</em></p>
+
+<h2>The Power of Ordinary Kindness</h2>
+<p>Research shows kindness improves the giver's mental health, creates contagion effects (recipients help others), builds social trust, and can be as effective as antidepressants for mild depression.</p>
+
+<h2>Connection &amp; Acknowledgment</h2>
+<h3>See Service Workers</h3>
+<p>Make eye contact. Use their names. Say "thank you" and mean it. Ask how their day is going and actually listen.</p>
+
+<h3>Active Listening</h3>
+<p>Put down your phone. Make eye contact. Don't interrupt. Ask follow-up questions. Resist the urge to problem-solve immediately. Validate feelings. Sometimes people don't need advice&mdash;they need a witness.</p>
+
+<h2>Everyday Generosity</h2>
+<p><strong>Time gifts:</strong> Let someone go ahead in line, give directions, stay on the phone with an elderly relative, return shopping carts.</p>
+<p><strong>Small financial kindness:</strong> Generous tips, buy coffee for someone, cover a shortfall at the register.</p>
+<p><strong>Sharing resources:</strong> Bring food for colleagues, leave books at Little Free Libraries, share tools with neighbors.</p>
+
+<h2>Bystander Intervention: The 5 D's</h2>
+<table><thead><tr><th>Method</th><th>How</th></tr></thead><tbody>
+<tr><td><strong>Direct</strong></td><td>Address the situation: "Hey, leave her alone"</td></tr>
+<tr><td><strong>Distract</strong></td><td>Create a diversion that interrupts harassment</td></tr>
+<tr><td><strong>Delegate</strong></td><td>Get someone else (staff, security) to help</td></tr>
+<tr><td><strong>Document</strong></td><td>Record the incident (after safety is ensured)</td></tr>
+<tr><td><strong>Delay</strong></td><td>Support the target after: "Are you okay? I saw what happened"</td></tr>
+</tbody></table>
+<p><strong>Priority is always safety</strong>&mdash;yours and the target's.</p>
+
+<h2>Digital Kindness</h2>
+<ul>
+<li>Respond to friends' vulnerable posts with genuine engagement</li>
+<li>Amplify others' accomplishments</li>
+<li>Assume good faith in ambiguous messages</li>
+<li>Leave positive reviews for good businesses</li>
+<li>Defend people being unfairly attacked online</li>
+</ul>
+
+<h2>Helping Specific Groups</h2>
+<p><strong>Elderly neighbors:</strong> Check in regularly, help with technology, offer rides, include them in gatherings, just listen.</p>
+<p><strong>New parents:</strong> Bring freezable meals, offer to hold the baby, run errands, check in weeks/months later.</p>
+<p><strong>People grieving:</strong> Show up without being asked. Say the deceased's name. Check in months later. Don't say "let me know if you need anything"&mdash;just do something.</p>
+
+<h2>Building Kindness Habits</h2>
+<table><thead><tr><th>Day</th><th>Challenge</th></tr></thead><tbody>
+<tr><td>Monday</td><td>Genuinely compliment a stranger</td></tr>
+<tr><td>Tuesday</td><td>Write and send a thank-you message</td></tr>
+<tr><td>Wednesday</td><td>Let someone go ahead of you</td></tr>
+<tr><td>Thursday</td><td>Have a real conversation with a service worker</td></tr>
+<tr><td>Friday</td><td>Give something away (coffee, donations)</td></tr>
+<tr><td>Saturday</td><td>Check in on someone struggling</td></tr>
+<tr><td>Sunday</td><td>Reflect and plan kindness for the coming week</td></tr>
+</tbody></table>
+
+<h2>The Ripple Effect</h2>
+<p>Kind acts are contagious. Witnessing kindness makes people more likely to be kind. Recipients pay it forward. Even hearing about kindness increases prosocial behavior. When you're kind to one person, you potentially influence dozens downstream.</p>
+<p>But don't let everyday kindness substitute for systemic change. The best approach combines personal kindness, community involvement, and working on root causes.</p>
+`},
+{id:'ch7',title:'Systemic Change',num:'7',icon:'&#9878;',subtitle:'Advocacy, organizing, and policy change',content:`
+<h1>Chapter 7: Systemic Change</h1>
+<p><em>Advocacy, organizing, and policy change for lasting impact</em></p>
+
+<h2>Beyond Band-Aids</h2>
+<p>If people keep falling into a river, you can spend forever pulling them out. Or you can walk upstream and find out why they're falling in. Systemic change addresses root causes at scale.</p>
+
+<h3>The Case for Systems Work</h3>
+<p><strong>Leverage:</strong> One person tutoring helps dozens. One person changing education policy helps millions.</p>
+<p><strong>Sustainability:</strong> Changed systems operate automatically. A minimum wage increase keeps working without ongoing donations.</p>
+<p><strong>Justice:</strong> Some problems can't be solved with charity. No amount of food bank volunteering will fix a food system that produces poverty.</p>
+
+<h2>How Change Happens</h2>
+<p><strong>Inside game:</strong> Working within institutions (lobbying, elections, policy reform).</p>
+<p><strong>Outside game:</strong> Building pressure from outside (protests, organizing, public campaigns).</p>
+<p><strong>Cultural change:</strong> Shifting norms, narratives, and beliefs.</p>
+<p><strong>Prefigurative politics:</strong> Building alternatives that demonstrate better possibilities.</p>
+
+<h3>The Spectrum of Allies</h3>
+<p>Active Allies &rarr; Passive Allies &rarr; Neutral &rarr; Passive Opposition &rarr; Active Opposition</p>
+<p>Focus on moving people one step. Activate passive allies. Win over neutrals. Neutralize passive opposition. You rarely convert active opponents.</p>
+
+<h2>Advocacy: Making Your Voice Heard</h2>
+<h3>Contacting Elected Officials (by effectiveness)</h3>
+<ol>
+<li><strong>Most effective:</strong> Calls, in-person meetings, town halls, personal letters</li>
+<li><strong>Moderate:</strong> Personalized emails, faxes, social media</li>
+<li><strong>Least effective:</strong> Form letters and petitions (counted but don't persuade)</li>
+</ol>
+<div class="tip-card"><strong>Tips:</strong> Be brief and specific (one issue per contact). Share personal stories. Be polite. State your ask clearly. Mention you're a constituent. Follow up with thanks.</div>
+
+<h3>Voter Mobilization</h3>
+<p>One of the most evidence-backed forms of advocacy. Personal conversations and deep canvassing are most effective. Organizations: <a href="https://vote.org">Vote.org</a>, When We All Vote, Rock the Vote, Fair Fight.</p>
+
+<h2>Organizing: Building Collective Power</h2>
+<h3>Organizing vs. Mobilizing</h3>
+<p><strong>Mobilizing:</strong> Getting people to take specific actions. <strong>Organizing:</strong> Building relationships and leaders who sustain action over time. Mobilization without organizing burns out.</p>
+
+<h3>Campaign Elements</h3>
+<ul>
+<li><strong>Clear target:</strong> Who has power to make the change?</li>
+<li><strong>Specific demand:</strong> What exactly are you asking for?</li>
+<li><strong>Deadline:</strong> By when?</li>
+<li><strong>Escalating tactics:</strong> Increase pressure over time</li>
+</ul>
+
+<h3>Tactics Spectrum (low to high pressure)</h3>
+<ol>
+<li>Personal requests and relationship-based asks</li>
+<li>Public letters, petitions, public comment</li>
+<li>Media campaigns</li>
+<li>Rallies and demonstrations</li>
+<li>Economic pressure (boycotts, strikes)</li>
+<li>Direct action (civil disobedience)</li>
+</ol>
+
+<h2>Sustaining the Work</h2>
+<p>Systemic change takes years. Set boundaries. Celebrate small wins. Take breaks without guilt. Build community with fellow advocates.</p>
+<p>Movements have long timescales: Women's suffrage took 72 years. Civil rights took decades. You're part of something larger than any individual lifetime.</p>
+<blockquote>Plant trees whose shade you'll never sit in.</blockquote>
+`},
+{id:'orgs',title:'Organizations',icon:'&#127970;',isResource:true,subtitle:'Vetted organizations by cause area',content:`
+<h1>Vetted Organizations</h1>
+<p><em>A curated list of effective, transparent organizations doing impactful work</em></p>
+
+<h2>Global Poverty &amp; Health (GiveWell Top Charities)</h2>
+<table><thead><tr><th>Organization</th><th>Focus</th></tr></thead><tbody>
+<tr><td><a href="https://malariaconsortium.org">Malaria Consortium</a></td><td>Malaria prevention (seasonal chemoprevention)</td></tr>
+<tr><td><a href="https://againstmalaria.com">Against Malaria Foundation</a></td><td>Malaria prevention (bednets)</td></tr>
+<tr><td><a href="https://hki.org">Helen Keller International</a></td><td>Vitamin A supplementation</td></tr>
+<tr><td><a href="https://givedirectly.org">GiveDirectly</a></td><td>Direct cash transfers</td></tr>
+<tr><td><a href="https://evidenceaction.org">Deworm the World</a></td><td>School-based deworming</td></tr>
+<tr><td><a href="https://newincentives.org">New Incentives</a></td><td>Conditional cash transfers for vaccination</td></tr>
+</tbody></table>
+
+<h2>Hunger &amp; Food Security</h2>
+<table><thead><tr><th>Organization</th><th>Focus</th></tr></thead><tbody>
+<tr><td><a href="https://feedingamerica.org">Feeding America</a></td><td>US food bank network</td></tr>
+<tr><td><a href="https://wfp.org">World Food Programme</a></td><td>Global emergency food assistance</td></tr>
+<tr><td><a href="https://actionagainsthunger.org">Action Against Hunger</a></td><td>Malnutrition treatment &amp; prevention</td></tr>
+</tbody></table>
+
+<h2>Environment &amp; Climate</h2>
+<table><thead><tr><th>Organization</th><th>Focus</th></tr></thead><tbody>
+<tr><td><a href="https://catf.us">Clean Air Task Force</a></td><td>Clean energy policy</td></tr>
+<tr><td><a href="https://carbon180.org">Carbon180</a></td><td>Carbon removal solutions</td></tr>
+<tr><td><a href="https://nature.org">The Nature Conservancy</a></td><td>Land &amp; water conservation</td></tr>
+<tr><td><a href="https://worldwildlife.org">World Wildlife Fund</a></td><td>Wildlife &amp; habitat protection</td></tr>
+</tbody></table>
+
+<h2>Animal Welfare</h2>
+<table><thead><tr><th>Organization</th><th>Focus</th></tr></thead><tbody>
+<tr><td><a href="https://thehumaneleague.org">The Humane League</a></td><td>Corporate campaigns for farmed animals</td></tr>
+<tr><td><a href="https://wildanimalinitiative.org">Wild Animal Initiative</a></td><td>Wild animal welfare research</td></tr>
+<tr><td><a href="https://gfi.org">Good Food Institute</a></td><td>Alternative proteins</td></tr>
+</tbody></table>
+
+<h2>Human Rights &amp; Civil Liberties</h2>
+<table><thead><tr><th>Organization</th><th>Focus</th></tr></thead><tbody>
+<tr><td><a href="https://aclu.org">ACLU</a></td><td>Civil liberties</td></tr>
+<tr><td><a href="https://hrw.org">Human Rights Watch</a></td><td>Human rights documentation</td></tr>
+<tr><td><a href="https://eji.org">Equal Justice Initiative</a></td><td>Criminal justice reform</td></tr>
+<tr><td><a href="https://innocenceproject.org">Innocence Project</a></td><td>Wrongful convictions</td></tr>
+</tbody></table>
+
+<h2>Disaster Response</h2>
+<table><thead><tr><th>Organization</th><th>Focus</th></tr></thead><tbody>
+<tr><td><a href="https://redcross.org">American Red Cross</a></td><td>Disaster response &amp; relief</td></tr>
+<tr><td><a href="https://teamrubiconusa.org">Team Rubicon</a></td><td>Veteran-led disaster response</td></tr>
+<tr><td><a href="https://wck.org">World Central Kitchen</a></td><td>Food in disasters</td></tr>
+<tr><td><a href="https://disasterphilanthropy.org">Center for Disaster Philanthropy</a></td><td>Strategic disaster giving</td></tr>
+</tbody></table>
+
+<h2>Education &amp; Children</h2>
+<table><thead><tr><th>Organization</th><th>Focus</th></tr></thead><tbody>
+<tr><td><a href="https://roomtoread.org">Room to Read</a></td><td>Literacy &amp; girls' education</td></tr>
+<tr><td><a href="https://khanacademy.org">Khan Academy</a></td><td>Free online education</td></tr>
+<tr><td><a href="https://bbbs.org">Big Brothers Big Sisters</a></td><td>Youth mentoring</td></tr>
+<tr><td><a href="https://nationalcasagal.org">CASA</a></td><td>Advocacy for foster children</td></tr>
+</tbody></table>
+
+<h2>Effective Altruism &amp; Meta-Organizations</h2>
+<table><thead><tr><th>Organization</th><th>Focus</th></tr></thead><tbody>
+<tr><td><a href="https://givewell.org">GiveWell</a></td><td>Charity research (global health)</td></tr>
+<tr><td><a href="https://thelifeyoucansave.org">The Life You Can Save</a></td><td>Effective giving promotion</td></tr>
+<tr><td><a href="https://givingwhatwecan.org">Giving What We Can</a></td><td>Giving pledge community</td></tr>
+<tr><td><a href="https://80000hours.org">80,000 Hours</a></td><td>High-impact career advice</td></tr>
+</tbody></table>
+`},
+{id:'tools',title:'Tools & Platforms',icon:'&#128295;',isResource:true,subtitle:'Apps and resources to amplify your impact',content:`
+<h1>Tools &amp; Platforms</h1>
+<p><em>Apps, websites, and resources to amplify your impact</em></p>
+
+<h2>Finding Volunteer Opportunities</h2>
+<table><thead><tr><th>Tool</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="https://volunteermatch.org">VolunteerMatch</a></td><td>Largest volunteer opportunity database</td></tr>
+<tr><td><a href="https://idealist.org">Idealist</a></td><td>Jobs, internships, and volunteer positions</td></tr>
+<tr><td><a href="https://211.org">211</a></td><td>Local human services resource (dial 211)</td></tr>
+<tr><td><a href="https://pointsoflight.org">Points of Light</a></td><td>Corporate and individual volunteering</td></tr>
+</tbody></table>
+
+<h2>Charity Research</h2>
+<table><thead><tr><th>Tool</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="https://givewell.org">GiveWell</a></td><td>Deep research on cost-effective charities</td></tr>
+<tr><td><a href="https://charitynavigator.org">Charity Navigator</a></td><td>Financial health and accountability ratings</td></tr>
+<tr><td><a href="https://candid.org">GuideStar (Candid)</a></td><td>Nonprofit database and financials</td></tr>
+<tr><td><a href="https://give.org">BBB Wise Giving Alliance</a></td><td>Charity accountability standards</td></tr>
+</tbody></table>
+
+<h2>Donation Management</h2>
+<table><thead><tr><th>Tool</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="https://fidelitycharitable.org">Fidelity Charitable</a></td><td>Donor-advised fund</td></tr>
+<tr><td><a href="https://daffy.org">Daffy</a></td><td>Modern app-based donor-advised fund</td></tr>
+<tr><td><a href="https://every.org">Every.org</a></td><td>Simplified giving platform</td></tr>
+<tr><td><a href="https://givingwhatwecan.org">Giving What We Can</a></td><td>Giving pledge tracking</td></tr>
+</tbody></table>
+
+<h2>Micro-Volunteering Apps</h2>
+<table><thead><tr><th>App</th><th>What It Does</th></tr></thead><tbody>
+<tr><td><a href="https://bemyeyes.com">Be My Eyes</a></td><td>Video calls to assist blind/low-vision users</td></tr>
+<tr><td><a href="https://zooniverse.org">Zooniverse</a></td><td>Citizen science projects</td></tr>
+<tr><td><a href="https://missingmaps.org">Missing Maps</a></td><td>Humanitarian mapping</td></tr>
+<tr><td><a href="https://charitymiles.org">Charity Miles</a></td><td>Earn donations while exercising</td></tr>
+<tr><td><a href="https://foldingathome.org">Folding@home</a></td><td>Donate computing power for research</td></tr>
+</tbody></table>
+
+<h2>Advocacy &amp; Civic Engagement</h2>
+<table><thead><tr><th>Tool</th><th>Description</th></tr></thead><tbody>
+<tr><td>Resistbot</td><td>Text RESIST to 50409 to contact representatives</td></tr>
+<tr><td><a href="https://5calls.org">5 Calls</a></td><td>Calling scripts for advocacy</td></tr>
+<tr><td><a href="https://vote.org">Vote.org</a></td><td>Voter registration and information</td></tr>
+<tr><td><a href="https://ballotpedia.org">Ballotpedia</a></td><td>Election and candidate information</td></tr>
+<tr><td><a href="https://opensecrets.org">OpenSecrets</a></td><td>Money in politics tracking</td></tr>
+</tbody></table>
+
+<h2>Crisis Support Platforms</h2>
+<table><thead><tr><th>Platform</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="https://crisistextline.org">Crisis Text Line</a></td><td>Text-based crisis support</td></tr>
+<tr><td><a href="https://7cups.com">7 Cups</a></td><td>Online emotional support</td></tr>
+<tr><td><a href="https://thetrevorproject.org">Trevor Project</a></td><td>LGBTQ+ youth crisis support</td></tr>
+</tbody></table>
+
+<h2>Learning &amp; Training</h2>
+<table><thead><tr><th>Resource</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="https://plusacumen.org">+Acumen</a></td><td>Social impact courses</td></tr>
+<tr><td><a href="https://nonprofitready.org">Nonprofit Ready</a></td><td>Free nonprofit training</td></tr>
+<tr><td><a href="https://ssir.org">Stanford Social Innovation Review</a></td><td>Research and articles</td></tr>
+<tr><td><a href="https://beautifultrouble.org">Beautiful Trouble</a></td><td>Activism tactics database</td></tr>
+</tbody></table>
+`}
+];
+
+// ===== APP STATE =====
+let currentPage = 'home';
+let isDark = false;
+
+// ===== RENDER NAV =====
+function renderNav(){
+  const nav = document.getElementById('sidebarNav');
+  let html = '<div class="nav-section"><div class="nav-section-label">Overview</div>';
+  html += navItem('home','&#127968;','Home');
+  html += '</div><div class="nav-section"><div class="nav-section-label">Chapters</div>';
+  chapters.filter(c=>c.num).forEach(c=>{
+    html += `<div class="nav-item${currentPage===c.id?' active':''}" onclick="navigate('${c.id}')">
+      <span class="nav-num">${c.num}</span>
+      <span>${c.title}</span></div>`;
+  });
+  html += '</div><div class="nav-section"><div class="nav-section-label">Resources</div>';
+  chapters.filter(c=>c.isResource).forEach(c=>{
+    html += navItem(c.id,c.icon,c.title);
+  });
+  html += '</div>';
+  nav.innerHTML = html;
+}
+function navItem(id,icon,title){
+  return `<div class="nav-item${currentPage===id?' active':''}" onclick="navigate('${id}')">
+    <span class="nav-icon">${icon}</span><span>${title}</span></div>`;
+}
+
+// ===== RENDER PAGE =====
+function renderPage(){
+  const ch = chapters.find(c=>c.id===currentPage);
+  if(!ch) return;
+  const content = document.getElementById('content');
+  let html = '<div class="page">' + ch.content;
+
+  // Hero cards on home
+  if(ch.isHome){
+    // Cards are filled after render
+  }
+
+  // Chapter nav
+  const chapterList = chapters.filter(c=>c.num||c.isResource);
+  const idx = chapterList.findIndex(c=>c.id===currentPage);
+  if(idx > -1){
+    html += '<div class="chapter-nav">';
+    if(idx > 0){
+      const prev = chapterList[idx-1];
+      html += `<div class="chapter-nav-btn" onclick="navigate('${prev.id}')">
+        <div>&larr;</div><div><div class="cnb-label">Previous</div><div class="cnb-title">${prev.title}</div></div></div>`;
+    } else { html += '<div></div>'; }
+    if(idx < chapterList.length - 1){
+      const next = chapterList[idx+1];
+      html += `<div class="chapter-nav-btn" onclick="navigate('${next.id}')" style="text-align:right;margin-left:auto">
+        <div><div class="cnb-label">Next</div><div class="cnb-title">${next.title}</div></div><div>&rarr;</div></div>`;
+    }
+    html += '</div>';
+  }
+  html += '</div>';
+  content.innerHTML = html;
+
+  // Fill hero cards
+  if(ch.isHome){
+    const heroCards = document.getElementById('heroCards');
+    if(heroCards){
+      heroCards.innerHTML = chapters.filter(c=>c.num||c.isResource).map(c=>
+        `<div class="hero-card" onclick="navigate('${c.id}')">
+          <div class="hc-icon">${c.icon}</div>
+          <div class="hc-title">${c.num?'Ch '+c.num+': ':''}${c.title}</div>
+          <div class="hc-desc">${c.subtitle||''}</div>
+        </div>`
+      ).join('');
+    }
+  }
+
+  renderNav();
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function navigate(id){
+  currentPage = id;
+  renderPage();
+  closeSidebar();
+}
+
+// ===== PROGRESS =====
+function updateProgress(){
+  const allPages = chapters.filter(c=>c.num||c.isResource);
+  const idx = allPages.findIndex(c=>c.id===currentPage);
+  const pct = idx < 0 ? 0 : Math.round(((idx+1)/allPages.length)*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = pct+'%';
+}
+
+// ===== SEARCH =====
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+searchInput.addEventListener('input', function(){
+  const q = this.value.trim().toLowerCase();
+  if(q.length < 2){searchResults.classList.remove('visible');return;}
+  const results = [];
+  chapters.forEach(ch=>{
+    if(ch.isHome) return;
+    const text = ch.content.replace(/<[^>]*>/g,' ').replace(/&[^;]+;/g,' ');
+    const idx = text.toLowerCase().indexOf(q);
+    if(idx > -1){
+      const start = Math.max(0,idx-40);
+      const end = Math.min(text.length,idx+q.length+60);
+      let snippet = (start>0?'...':'')+text.slice(start,end)+(end<text.length?'...':'');
+      const re = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+      snippet = snippet.replace(re,'<mark>$1</mark>');
+      results.push({id:ch.id,title:ch.title,num:ch.num,snippet});
+    }
+  });
+  if(results.length){
+    searchResults.innerHTML = results.slice(0,8).map(r=>
+      `<div class="search-result-item" onclick="navigate('${r.id}');searchInput.value='';searchResults.classList.remove('visible')">
+        <div class="sr-chapter">${r.num?'Chapter '+r.num+': ':''}${r.title}</div>
+        <div class="sr-text">${r.snippet}</div>
+      </div>`
+    ).join('');
+    searchResults.classList.add('visible');
+  } else {
+    searchResults.innerHTML = '<div class="search-result-item"><div class="sr-text">No results found</div></div>';
+    searchResults.classList.add('visible');
+  }
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.search-box'))searchResults.classList.remove('visible')});
+
+// ===== DARK MODE =====
+document.getElementById('themeToggle').addEventListener('click',()=>{
+  isDark = !isDark;
+  document.body.classList.toggle('dark',isDark);
+  document.getElementById('themeToggle').innerHTML = isDark ? '&#9788;' : '&#9790;';
+});
+
+// ===== MOBILE SIDEBAR =====
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+document.getElementById('menuBtn').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+});
+document.getElementById('sidebarOverlay').addEventListener('click',closeSidebar);
+
+// ===== BACK TO TOP =====
+const btt = document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{btt.classList.toggle('visible',window.scrollY>400)});
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// ===== KEYBOARD NAV =====
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT') return;
+  const allPages = chapters.filter(c=>c.num||c.isResource);
+  const idx = allPages.findIndex(c=>c.id===currentPage);
+  if(e.key==='ArrowRight'&&idx<allPages.length-1) navigate(allPages[idx+1].id);
+  if(e.key==='ArrowLeft'&&idx>0) navigate(allPages[idx-1].id);
+  if(e.key==='/'){ e.preventDefault(); searchInput.focus(); }
+});
+
+// ===== INIT =====
+renderPage();
+</script>
+</body>
+</html>
