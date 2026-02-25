@@ -1,0 +1,79 @@
+site_name: The Helper's Handbook
+site_description: A practical guide for people who want to make the world better
+site_url: https://mr-do-good-handbook.pages.dev/
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.copy
+  icon:
+    logo: material/heart-pulse
+  font: false  # Disable default fonts, we use custom
+
+plugins:
+  - search
+
+extra_css:
+  - stylesheets/custom.css
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started: 01-getting-started.md
+  - Local Action: 02-local-action.md
+  - Online Helping: 03-online-helping.md
+  - Giving Wisely: 04-giving-wisely.md
+  - Crisis Response: 05-crisis-response.md
+  - Everyday Acts: 06-everyday-acts.md
+  - Systemic Change: 07-systemic-change.md
+  - Resources:
+      - Organizations: resources/organizations.md
+      - Tools: resources/tools.md
+      - Templates:
+          - Donation Tracker: resources/templates/donation-tracker.md
+          - Volunteer Log: resources/templates/volunteer-log.md
+  - Contributing: CONTRIBUTING.md
+
+docs_dir: .
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/aidigmark/Helper_Handbook
