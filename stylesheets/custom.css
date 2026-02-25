@@ -1,18 +1,111 @@
-/* Custom theme colors for The Helper's Handbook */
+/* Dr. DoGood Brand Styles */
 
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* Typography */
+h1, .md-typeset h1 {
+  font-family: 'League Spartan', sans-serif !important;
+  font-weight: 700;
+}
+
+h2, h3, h4, h5, h6,
+.md-typeset h2, .md-typeset h3, .md-typeset h4, .md-typeset h5, .md-typeset h6 {
+  font-family: 'League Spartan', sans-serif !important;
+  font-weight: 600;
+}
+
+body, .md-typeset {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Brand Colors */
 :root {
-  --md-primary-fg-color: #2e7d32;        /* Green - growth, help */
-  --md-primary-fg-color--light: #4caf50;
-  --md-primary-fg-color--dark: #1b5e20;
-  --md-accent-fg-color: #ff7043;         /* Warm orange - energy, action */
+  --md-primary-fg-color: #000000;
+  --md-primary-bg-color: #ffffff;
+  --md-accent-fg-color: #0ea3e8;
+  --md-accent-bg-color: #0ea3e8;
 }
 
+/* Light mode */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #000000;
+  --md-primary-bg-color: #ffffff;
+  --md-accent-fg-color: #0ea3e8;
+  --md-typeset-a-color: #0ea3e8;
+}
+
+/* Dark mode */
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #66bb6a;
-  --md-accent-fg-color: #ffab91;
+  --md-primary-fg-color: #000000;
+  --md-primary-bg-color: #1a1a1a;
+  --md-accent-fg-color: #0ea3e8;
+  --md-typeset-a-color: #0ea3e8;
+  --md-default-bg-color: #121212;
 }
 
-/* Custom fonts - optional, remove if not needed */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+/* Header styling */
+.md-header {
+  background-color: #000000;
+}
+
+.md-header__title {
+  font-family: 'League Spartan', sans-serif !important;
+  font-weight: 700;
+}
+
+/* Navigation */
+.md-tabs {
+  background-color: #000000;
+}
+
+/* Links */
+.md-typeset a {
+  color: #0ea3e8;
+}
+
+.md-typeset a:hover {
+  color: #0c8bc4;
+}
+
+/* Buttons and accents */
+.md-typeset .md-button--primary {
+  background-color: #0ea3e8;
+  border-color: #0ea3e8;
+}
+
+.md-typeset .md-button--primary:hover {
+  background-color: #0c8bc4;
+  border-color: #0c8bc4;
+}
+
+/* Search highlight */
+.md-search__input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Footer */
+.md-footer {
+  background-color: #000000;
+}
+
+/* Code blocks - subtle accent */
+.md-typeset code {
+  background-color: rgba(14, 163, 232, 0.1);
+}
+
+/* Admonitions with brand color */
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  border-color: #0ea3e8;
+}
+
+.md-typeset .tip > .admonition-title,
+.md-typeset .tip > summary {
+  background-color: rgba(14, 163, 232, 0.1);
+}
+
+.md-typeset .tip > .admonition-title::before,
+.md-typeset .tip > summary::before {
+  background-color: #0ea3e8;
 }
