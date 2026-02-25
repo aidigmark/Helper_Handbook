@@ -75,5 +75,8 @@ docs_dir: docs
 
 extra:
   social:
+    - icon: fontawesome/solid/heart
+      link: https://google.com
+      name: Our Story
     - icon: fontawesome/brands/github
       link: https://github.com/aidigmark/Helper_Handbook
