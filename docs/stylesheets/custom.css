@@ -47,16 +47,45 @@ body, .md-typeset {
 /* Header styling */
 .md-header {
   background-color: #000000;
+  color: #ffffff;
 }
 
 .md-header__title {
   font-family: 'League Spartan', sans-serif !important;
   font-weight: 700;
+  color: #ffffff;
 }
 
-/* Navigation */
+/* Header icons and links - always light on black header */
+.md-header__button,
+.md-header__topic,
+.md-header .md-logo,
+.md-header .md-icon {
+  color: #ffffff !important;
+}
+
+.md-header__button:hover,
+.md-header .md-icon:hover {
+  color: #0ea3e8 !important;
+}
+
+/* Search input text */
+.md-search__input {
+  color: #ffffff;
+}
+
+/* Navigation tabs */
 .md-tabs {
   background-color: #000000;
+}
+
+.md-tabs__link {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.md-tabs__link:hover,
+.md-tabs__link--active {
+  color: #ffffff;
 }
 
 /* Links */
@@ -87,6 +116,21 @@ body, .md-typeset {
 /* Footer */
 .md-footer {
   background-color: #000000;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.md-footer a {
+  color: #ffffff;
+}
+
+.md-footer a:hover {
+  color: #0ea3e8;
+}
+
+.md-footer__link,
+.md-footer__title,
+.md-footer .md-icon {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Code blocks - subtle accent */
