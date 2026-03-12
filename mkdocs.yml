@@ -69,6 +69,7 @@ nav:
       - Templates:
           - Donation Tracker: resources/templates/donation-tracker.md
           - Volunteer Log: resources/templates/volunteer-log.md
+  - Brand Guide: brand-guide.md
   - Contributing: CONTRIBUTING.md
 
 docs_dir: docs
